@@ -78,9 +78,7 @@ public class DamageListener implements Listener {
         }
         if (entityAttacker instanceof Player && (!(entityVictim instanceof Player))) {
             Player attacker = (Player) entityAttacker;
-            if (this.teamsPlugin.getTeamManager().getTeam(attacker.getUniqueId()) == Team.MAGE) {
-                ((LivingEntity) entityVictim).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
-            }
+            // do some shit in here
         }
         if (entityAttacker instanceof Witch) {
             if (entityVictim instanceof Player) {

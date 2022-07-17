@@ -1,4 +1,8 @@
-prefix: "&8[&4legends&8] "
+prefix: "&8[&4Teams&8] &r"
+magePrefix: "&2Mage &r"
+knightPrefix: "&9Knight &r"
+archerPrefix: "&6Archer &r"
+tamerPrefix: "&5Tamer &r"
 
 storage:
   # Types: YAML or MySQL
