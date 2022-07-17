@@ -32,14 +32,7 @@ public class ChatListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
 
-        final String teamName = this.teamsPlugin.getteamsConfig().getString(player.getUniqueId().toString());
-
-        Team team;
-        if (teamName == null) {
-            team = Team.CITIZEN;
-        } else {
-            team = Team.valueOf(teamName.toUpperCase(Locale.ROOT));
-        }
+        final Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
 
         final ComponentBuilder builder = new ComponentBuilder();
         // Team prefix
@@ -52,7 +45,7 @@ public class ChatListener implements Listener {
         builder.append(" ").reset();
 
         // Player's display name
-        final String prefix = this.getPrefix(Bukkit.getPlayer(event.getPlayer().getName())).orElse("&f");
+        final String prefix = this.getPrefix(event.getPlayer()).orElse("&f");
         builder.append(ColourUtils.colour(prefix + player.getDisplayName()))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ColourUtils.colour(this.getGroup(player)))))
                 .event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "));

@@ -1,9 +1,13 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 group 'me.goodwilled'
 version '1.0.2-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_16
 
 repositories {
     mavenCentral()
@@ -15,10 +19,13 @@ repositories {
 
 dependencies {
     // Spigot API.
-    compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
 
     // LuckPerms API.
-    compileOnly 'net.luckperms:api:5.3'
+    compileOnly 'net.luckperms:api:5.4'
+
+    // HikariCP.
+    implementation 'com.zaxxer:HikariCP:5.0.1'
 }
 
 processResources {
@@ -27,4 +34,8 @@ processResources {
         expand 'version': project.version
         include 'plugin.yml'
     }
+}
+
+shadowJar {
+    archiveClassifier.set("")
 }

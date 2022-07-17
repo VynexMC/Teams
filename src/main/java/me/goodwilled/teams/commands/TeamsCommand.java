@@ -13,7 +13,7 @@ public class TeamsCommand implements CommandExecutor {
         if (!(sender instanceof Player)) {
             return true;
         }
-        ((Player) sender).openInventory(TeamsPlugin.createteamsGui());
+        ((Player) sender).openInventory(TeamsPlugin.createTeamsGui());
         return true;
     }
 }

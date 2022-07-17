@@ -19,73 +19,73 @@ public class DamageListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        Entity damager = e.getDamager();
-        Entity damaged = e.getEntity();
-        if (damager instanceof Player && damaged instanceof Player) {
-            Player pdamager = (Player) damager;
-            Player pdamaged = (Player) damaged;
-            String drteamName = teamsPlugin.getteamsConfig().getString(pdamager.getUniqueId().toString());
-            String ddteamName = teamsPlugin.getteamsConfig().getString(pdamaged.getUniqueId().toString());
-            if (drteamName.equalsIgnoreCase(ddteamName)) {
-                e.setCancelled(true);
-                pdamager.sendTitle(ChatColor.DARK_RED + "No! ", ChatColor.WHITE + "Do not hit teammates.", 15, 15, 15);
-            } else {
-                if (Team.valueOf(teamsPlugin.getteamsConfig().getString(pdamager.getUniqueId().toString())) == Team.TAMER) {
-                    if (!pdamaged.hasPotionEffect(PotionEffectType.WITHER)) {
-                        pdamaged.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 150, 1));
-                    }
+        Entity entityAttacker = e.getDamager();
+        Entity entityVictim = e.getEntity();
+        if (entityAttacker instanceof Player && entityVictim instanceof Player) {
+            Player attacker = (Player) entityAttacker;
+            Player victim = (Player) entityVictim;
 
-                } else if (Team.valueOf(teamsPlugin.getteamsConfig().getString(pdamager.getUniqueId().toString())) == Team.MAGE) {
-                    if (!pdamager.hasPotionEffect(PotionEffectType.SPEED)) {
-                        pdamager.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 60, 2, false, false));
+            final Team attackerTeam = this.teamsPlugin.getTeamManager().getTeam(attacker.getUniqueId());
+            final Team victimTeam = this.teamsPlugin.getTeamManager().getTeam(victim.getUniqueId());
+            if (attackerTeam == victimTeam) {
+                e.setCancelled(true);
+                attacker.sendTitle(ChatColor.DARK_RED + "No! ", ChatColor.WHITE + "Do not hit teammates.", 15, 15, 15);
+            } else {
+                if (attackerTeam == Team.TAMER) {
+                    if (!victim.hasPotionEffect(PotionEffectType.WITHER)) {
+                        victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 150, 1));
                     }
-                } else if (Team.valueOf(teamsPlugin.getteamsConfig().getString(pdamager.getUniqueId().toString())) == Team.ARCHER) {
-                    pdamaged.setHealth(pdamaged.getHealth() - 1.5);
-                } else if (Team.valueOf(teamsPlugin.getteamsConfig().getString(pdamager.getUniqueId().toString())) == Team.KNIGHT) {
+                } else if (attackerTeam == Team.MAGE) {
+                    if (!attacker.hasPotionEffect(PotionEffectType.SPEED)) {
+                        attacker.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 60, 2, false, false));
+                    }
+                } else if (attackerTeam == Team.ARCHER) {
+                    victim.setHealth(victim.getHealth() - 1.5);
+                } else if (attackerTeam == Team.KNIGHT) {
                     double dur = 0.5;
-                    if (!pdamaged.hasPotionEffect(PotionEffectType.LEVITATION)) {
-                        pdamaged.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 40, 1));
-                        pdamaged.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 40, 1));
+                    if (!victim.hasPotionEffect(PotionEffectType.LEVITATION)) {
+                        victim.addPotionEffect(new PotionEffect(PotionEffectType.LEVITATION, 40, 1));
+                        victim.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 40, 1));
                     }
                 }
             }
         }
-        if (damager instanceof Player) {
-            Player p = (Player) e.getDamager();
-            if (Team.valueOf(teamsPlugin.getteamsConfig().getString(p.getUniqueId().toString())) == Team.ARCHER) {
+        if (entityAttacker instanceof Player) {
+            Player attacker = (Player) e.getDamager();
+            if (this.teamsPlugin.getTeamManager().getTeam(attacker.getUniqueId()) == Team.ARCHER) {
                 e.setDamage(3);
             }
         }
-        if (damager instanceof Zombie || damager instanceof Phantom || damager instanceof Spider
-        || damager instanceof Piglin || damager instanceof PiglinBrute || damager instanceof Ravager || damager instanceof Pillager) {
-            if (damaged instanceof Player) {
-                Player p = (Player) e.getEntity();
-                if (Team.valueOf(teamsPlugin.getteamsConfig().getString(p.getUniqueId().toString())) == Team.KNIGHT) {
+        if (entityAttacker instanceof Zombie || entityAttacker instanceof Phantom || entityAttacker instanceof Spider
+                || entityAttacker instanceof Piglin || entityAttacker instanceof PiglinBrute || entityAttacker instanceof Ravager || entityAttacker instanceof Pillager) {
+            if (entityVictim instanceof Player) {
+                Player victim = (Player) e.getEntity();
+                if (this.teamsPlugin.getTeamManager().getTeam(victim.getUniqueId()) == Team.KNIGHT) {
                     e.setDamage(e.getDamage() * 0.5);
                 }
             }
         }
-        if (damager instanceof Arrow){
+        if (entityAttacker instanceof Arrow) {
             Arrow a = (Arrow) e.getDamager();
-            if(a.getShooter() instanceof Skeleton || a.getShooter() instanceof Pillager) {
-                if (damaged instanceof Player) {
-                    Player p = (Player) e.getEntity();
-                    if (Team.valueOf(teamsPlugin.getteamsConfig().getString(p.getUniqueId().toString())) == Team.KNIGHT) {
+            if (a.getShooter() instanceof Skeleton || a.getShooter() instanceof Pillager) {
+                if (entityVictim instanceof Player) {
+                    Player victim = (Player) e.getEntity();
+                    if (this.teamsPlugin.getTeamManager().getTeam(victim.getUniqueId()) == Team.KNIGHT) {
                         e.setDamage(e.getDamage() * 0.5);
                     }
                 }
             }
         }
-           if (damager instanceof Player && (!(damaged instanceof Player))) {
-               Player p = (Player) damager;
-               if (Team.valueOf(teamsPlugin.getteamsConfig().getString(p.getUniqueId().toString())) == Team.MAGE) {
-                   ((LivingEntity) damaged).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
-               }
-           }
-        if (damager instanceof Witch) {
-            if (damaged instanceof Player) {
-                Player p = (Player) e.getEntity();
-                if (Team.valueOf(teamsPlugin.getteamsConfig().getString(p.getUniqueId().toString())) == Team.ARCHER) {
+        if (entityAttacker instanceof Player && (!(entityVictim instanceof Player))) {
+            Player attacker = (Player) entityAttacker;
+            if (this.teamsPlugin.getTeamManager().getTeam(attacker.getUniqueId()) == Team.MAGE) {
+                ((LivingEntity) entityVictim).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, Integer.MAX_VALUE, false, false));
+            }
+        }
+        if (entityAttacker instanceof Witch) {
+            if (entityVictim instanceof Player) {
+                Player victim = (Player) e.getEntity();
+                if (this.teamsPlugin.getTeamManager().getTeam(victim.getUniqueId()) == Team.ARCHER) {
                     e.setCancelled(true);
                 }
             }
