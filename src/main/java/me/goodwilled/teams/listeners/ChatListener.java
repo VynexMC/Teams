@@ -7,6 +7,7 @@ import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.types.MetaNode;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -32,14 +33,7 @@ public class ChatListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
 
-        final String teamName = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId()).name();
-
-        Team team;
-        if (teamName == null) {
-            team = Team.CITIZEN;
-        } else {
-            team = Team.valueOf(teamName.toUpperCase(Locale.ROOT));
-        }
+        Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
 
         final ComponentBuilder builder = new ComponentBuilder();
         // Team prefix
@@ -52,7 +46,7 @@ public class ChatListener implements Listener {
         builder.append(" ").reset();
 
         // Player's display name
-        final String prefix = this.getPrefix(Bukkit.getPlayer(event.getPlayer().getName())).orElse("&f");
+        final String prefix = this.getPrefix(event.getPlayer()).orElse("&f");
         builder.append(ColourUtils.colour(prefix + player.getDisplayName()))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ColourUtils.colour(this.getGroup(player)))))
                 .event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "));
@@ -69,7 +63,7 @@ public class ChatListener implements Listener {
     }
 
     private String getGroup(Player player) {
-        if (!this.teamsPlugin.getLuckPerms().isPresent()) {
+        if (this.teamsPlugin.getLuckPerms().isEmpty()) {
             return "N/A"; // LuckPerms API isn't present. Return placeholder value.
         }
         final User user = this.teamsPlugin.getLuckPerms().get().getUserManager().getUser(player.getUniqueId());
@@ -85,7 +79,13 @@ public class ChatListener implements Listener {
 
 
     private Optional<String> getPrefix(Player player) {
-        User user = this.teamsPlugin.getLuckPerms().get().getUserManager().getUser(player.getUniqueId());
+        if (this.teamsPlugin.getLuckPerms().isEmpty()) {
+            return Optional.empty();
+        }
+        final User user = this.teamsPlugin.getLuckPerms().get().getUserManager().getUser(player.getUniqueId());
+        if (user == null) {
+            return Optional.empty();
+        }
         return Optional.ofNullable(user.getCachedData().getMetaData().getPrefix());
     }
 

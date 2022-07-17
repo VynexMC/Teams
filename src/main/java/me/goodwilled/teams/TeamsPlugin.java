@@ -64,7 +64,7 @@ public class TeamsPlugin extends JavaPlugin {
     public void onEnable() {
         this.saveDefaultConfig();
         this.initStorage();
-        this.getCommand("teams").setExecutor(new TeamsCommand());
+        this.getCommand("teams").setExecutor(new TeamsCommand(this));
         this.initListeners();
     }
 
