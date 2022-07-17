@@ -1,0 +1,13 @@
+name: Teams
+author: Goodwilled
+
+main: me.goodwilled.teams.TeamsPlugin
+version: ${version}
+api-version: 1.16
+
+softdepend: [ LuckPerms ]
+
+commands:
+  teams:
+    usage: /<command>
+    description: Plugin command.

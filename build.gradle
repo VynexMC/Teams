@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'me.goodwilled'
+version '1.0.2-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    /// Spigot Repository.
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' }
+}
+
+dependencies {
+    // Spigot API.
+    compileOnly 'org.spigotmc:spigot-api:1.17.1-R0.1-SNAPSHOT'
+
+    // LuckPerms API.
+    compileOnly 'net.luckperms:api:5.3'
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    from(sourceSets.main.resources.srcDirs) {
+        expand 'version': project.version
+        include 'plugin.yml'
+    }
+}
