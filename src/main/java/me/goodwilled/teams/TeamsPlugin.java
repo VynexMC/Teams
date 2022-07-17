@@ -64,13 +64,31 @@ public class TeamsPlugin extends JavaPlugin {
     public void onEnable() {
         this.saveDefaultConfig();
         this.initStorage();
-        this.getCommand("teams").setExecutor(new TeamsCommand());
+        this.getCommand("teams").setExecutor(new TeamsCommand(this));
         this.initListeners();
     }
 
     @Override
     public void onDisable() {
         this.storage.shutdown();
+    }
+
+    public long reload(String... flags) {
+        final long start = System.currentTimeMillis();
+        for (String flag : flags) {
+            if (flag.equalsIgnoreCase("-full")) {
+                this.teamManager.shutdown();
+                this.storage.shutdown();
+                this.initStorage();
+                this.teamManager.loadAll();
+                this.reloadConfig();
+                break;
+            }
+            if (flag.equalsIgnoreCase("-config")) {
+                this.reloadConfig();
+            }
+        }
+        return System.currentTimeMillis() - start;
     }
 
     private void initListeners() {
