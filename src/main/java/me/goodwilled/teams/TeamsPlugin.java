@@ -2,12 +2,14 @@ package me.goodwilled.teams;
 
 import me.goodwilled.teams.commands.TeamsCommand;
 import me.goodwilled.teams.listeners.*;
+import me.goodwilled.teams.manager.TeamManager;
+import me.goodwilled.teams.storage.MySqlStorage;
+import me.goodwilled.teams.storage.Storage;
+import me.goodwilled.teams.storage.YamlStorage;
 import net.luckperms.api.LuckPerms;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -15,18 +17,16 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Optional;
 
 public class TeamsPlugin extends JavaPlugin {
     public static final String PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.DARK_RED + "Teams" + ChatColor.DARK_GRAY + "] ";
 
-    public static Inventory createteamsGui() {
-        Inventory inventory = Bukkit.createInventory(null, 27, "Teams");
+    public static final String TEAMS_GUI_TITLE = "Teams";
+
+    public static Inventory createTeamsGui() {
+        Inventory inventory = Bukkit.createInventory(null, 27, TEAMS_GUI_TITLE);
         ItemStack knight = new ItemStack(Material.DIAMOND_SWORD, 1);
         ItemStack mage = new ItemStack(Material.ENDER_PEARL, 1);
         ItemStack tamer = new ItemStack(Material.COW_SPAWN_EGG, 1);
@@ -54,26 +54,23 @@ public class TeamsPlugin extends JavaPlugin {
         return inventory;
     }
 
-    private final Path teamsConfigPath = this.getDataFolder().toPath().resolve("teams.yml");
-
-    private FileConfiguration teamsConfig;
     private LuckPerms luckPerms;
+
+    private TeamManager teamManager;
+
+    private Storage storage;
 
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
-        this.loadteamsConfig();
+        this.initStorage();
         this.getCommand("teams").setExecutor(new TeamsCommand());
         this.initListeners();
     }
 
-    private void loadteamsConfig() {
-        this.saveResource("teams.yml", false);
-        try (final BufferedReader reader = Files.newBufferedReader(this.teamsConfigPath)) {
-            this.teamsConfig = YamlConfiguration.loadConfiguration(reader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void onDisable() {
+        this.storage.shutdown();
     }
 
     private void initListeners() {
@@ -85,12 +82,25 @@ public class TeamsPlugin extends JavaPlugin {
         pluginManager.registerEvents(new MiscListener(this), this);
     }
 
-    public void saveteamsConfig() {
-        try {
-            this.teamsConfig.save(this.teamsConfigPath.toFile());
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void initStorage() {
+        final String storageType = this.getConfig().getString("storage.type");
+        if (storageType == null) {
+            throw new NullPointerException("Storage type cannot be null!");
         }
+        if (storageType.equalsIgnoreCase("YAML")) {
+            this.storage = new YamlStorage(this.getDataFolder().toPath().resolve("teams.yml"));
+        } else if (storageType.equalsIgnoreCase("MySQL")) {
+            this.storage = new MySqlStorage(this.getConfig().getString("storage.credentials.host"),
+                    this.getConfig().getInt("storage.credentials.port"),
+                    this.getConfig().getString("storage.credentials.database"),
+                    this.getConfig().getString("storage.credentials.username"),
+                    this.getConfig().getString("storage.credentials.password")
+            );
+        } else {
+            throw new IllegalStateException("Invalid storage type! (" + storageType + ")");
+        }
+        this.storage.init();
+        this.teamManager = new TeamManager(this.storage);
     }
 
     public Optional<LuckPerms> getLuckPerms() {
@@ -103,8 +113,8 @@ public class TeamsPlugin extends JavaPlugin {
         return Optional.ofNullable(this.luckPerms);
     }
 
-    public FileConfiguration getteamsConfig() {
-        return this.teamsConfig;
+    public TeamManager getTeamManager() {
+        return this.teamManager;
     }
 }
 
