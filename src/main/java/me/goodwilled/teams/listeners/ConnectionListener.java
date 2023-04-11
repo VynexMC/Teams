@@ -46,7 +46,7 @@ public class ConnectionListener implements Listener {
 
         if (team == Team.CITIZEN) {
             player.sendMessage(ColourUtils.colour("&aLooks like you haven't selected a Team yet. Do &b/teams &a to do so!"));
-            Bukkit.broadcastMessage(ColourUtils.colour("&a" + player.getName() + "&7&ojoined the game."));
+            Bukkit.broadcastMessage(ColourUtils.colour("&a" + player.getName() + " &7&ojoined the game."));
         } else {
             switch (team) {
                 case KNIGHT:
@@ -77,7 +77,7 @@ public class ConnectionListener implements Listener {
 
         final Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
         this.teamsPlugin.getTeamManager().unload(event.getPlayer().getUniqueId());
-        Bukkit.getServer().broadcastMessage("&c" + player.getName() + "&7&oleft the game.");
+        Bukkit.getServer().broadcastMessage("&c" + player.getName() + " &7&oleft the game.");
     }
 
 }
