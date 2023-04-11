@@ -34,28 +34,28 @@ public class TeamsPlugin extends JavaPlugin {
         Inventory inventory = Bukkit.createInventory(null, 27, TEAMS_GUI_TITLE);
         ItemStack knight = new ItemStack(Material.DIAMOND_SWORD, 1);
         ItemStack mage = new ItemStack(Material.ENDER_PEARL, 1);
-        ItemStack tamer = new ItemStack(Material.COW_SPAWN_EGG, 1);
-        ItemStack archer = new ItemStack(Material.BOW, 1);
+        ItemStack ASSASSIN = new ItemStack(Material.COW_SPAWN_EGG, 1);
+        ItemStack VIKING = new ItemStack(Material.BOW, 1);
         ItemMeta aMeta = knight.getItemMeta();
         ItemMeta nMeta = mage.getItemMeta();
-        ItemMeta wMeta = tamer.getItemMeta();
-        ItemMeta vMeta = archer.getItemMeta();
+        ItemMeta wMeta = ASSASSIN.getItemMeta();
+        ItemMeta vMeta = VIKING.getItemMeta();
         aMeta.setDisplayName(ChatColor.BLUE + "KNIGHT");
         nMeta.setDisplayName(ChatColor.DARK_GREEN + "MAGE");
-        wMeta.setDisplayName(ChatColor.DARK_RED + "TAMER");
-        vMeta.setDisplayName(ChatColor.GOLD + "ARCHER");
+        wMeta.setDisplayName(ChatColor.DARK_RED + "ASSASSIN");
+        vMeta.setDisplayName(ChatColor.GOLD + "VIKING");
         aMeta.setLore(Collections.singletonList("Ability to craft swords."));
         nMeta.setLore(Collections.singletonList("Magic."));
         wMeta.setLore(Collections.singletonList("Shoot like a Skeleton."));
         vMeta.setLore(Collections.singletonList("Animal army!"));
         knight.setItemMeta(aMeta);
-        archer.setItemMeta(vMeta);
+        VIKING.setItemMeta(vMeta);
         mage.setItemMeta(nMeta);
-        tamer.setItemMeta(wMeta);
+        ASSASSIN.setItemMeta(wMeta);
         inventory.setItem(10, knight);
         inventory.setItem(12, mage);
-        inventory.setItem(14, tamer);
-        inventory.setItem(16, archer);
+        inventory.setItem(14, ASSASSIN);
+        inventory.setItem(16, VIKING);
         return inventory;
     }
 

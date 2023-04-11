@@ -36,10 +36,10 @@ public class InventoryListener implements Listener {
 
                     break;
                 case 14:
-                    team = Team.TAMER;
+                    team = Team.ASSASSIN;
                     break;
                 case 16:
-                    team = Team.ARCHER;
+                    team = Team.VIKING;
                     break;
             }
 

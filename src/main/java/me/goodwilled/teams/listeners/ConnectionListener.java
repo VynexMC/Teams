@@ -44,37 +44,38 @@ public class ConnectionListener implements Listener {
         final Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
 
         if (team == Team.CITIZEN) {
-            final ComponentBuilder builder = new ComponentBuilder();
-
-            builder.append(ColourUtils.colour("&aLooks like you haven't selected a class! Click me to do so!"))
-                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Click me to select a class.")))
-                    .event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/teams"));
-
-            player.spigot().sendMessage(builder.create());
+            player.sendMessage(ColourUtils.colour("&aLooks like you haven't selected a Team yet. Do &b/teams &a to do so!"));
         } else {
             switch (team) {
                 case KNIGHT:
-                case TAMER:
+                    Bukkit.getServer().broadcastMessage("&5&oBe warned... a &9Knight &5&ohas joined the game.");
+                    Bukkit.getServer().broadcastMessage("&5&oGreetings, &a" + player.getName() + "&5&o.");
+                    break;
+                case ASSASSIN:
+                    Bukkit.getServer().broadcastMessage("&6&oWatch your back... because an &4Assassin &6&ohas joined the game.");
+                    Bukkit.getServer().broadcastMessage("&6&oNice to see you, &a" + player.getName() + "&6&o.");
                     break;
                 case MAGE:
+                    Bukkit.getServer().broadcastMessage("&3&oA strong breeze blows through the world... because a &2Mage &3&ohas joined the game.");
+                    Bukkit.getServer().broadcastMessage("&3&oHello, &a" + player.getName() + "&3&o.");
                     player.setWalkSpeed(0.3f);
                     player.setFlySpeed(0.3f);
                     break;
-                case ARCHER:
-            }
-
-            for (Player online : Bukkit.getOnlinePlayers()) {
-                final Team onlinePlayerTeam = this.teamsPlugin.getTeamManager().getTeam(online.getUniqueId());
-                if (onlinePlayerTeam == Team.CITIZEN || onlinePlayerTeam == team) {
-                    continue;
-                }
-                online.sendTitle(ChatColor.DARK_RED + "An enemy emerges...", ChatColor.GOLD + "Defend what's yours.", 25, 60, 25);
+                case VIKING:
+                    Bukkit.getServer().broadcastMessage("&c&oCarry a shield with you... because a &6Viking &c&ohas joined the game.");
+                    Bukkit.getServer().broadcastMessage("&c&oWe missed you, &a" + player.getName() + "&c&o.");
+                    break;
             }
         }
     }
 
     @EventHandler
     public void on(PlayerQuitEvent event) {
+        final Player player = event.getPlayer();
+
+        final Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
         this.teamsPlugin.getTeamManager().unload(event.getPlayer().getUniqueId());
+        Bukkit.getServer().broadcastMessage("&c" + player.getName() + "&7&oleft the game.");
     }
+
 }

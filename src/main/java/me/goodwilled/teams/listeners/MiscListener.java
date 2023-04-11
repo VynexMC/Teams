@@ -30,9 +30,9 @@ public class MiscListener implements Listener {
 
         final Team team = this.teamsPlugin.getTeamManager().getTeam(entityOwner.getUniqueId());
 
-        if (team != Team.TAMER || !entityOwner.hasPermission("teams.bypass.tame")) {
+        if (team != Team.ASSASSIN || !entityOwner.hasPermission("teams.bypass.tame")) {
             e.setCancelled(true);
-            entityOwner.sendMessage(ChatColor.DARK_RED + "You must be a Tamer to breed/tame this animal.");
+            entityOwner.sendMessage(ChatColor.DARK_RED + "You must be a ASSASSIN to breed/tame this animal.");
         }
     }
 
@@ -46,8 +46,8 @@ public class MiscListener implements Listener {
 
         final Team team = this.teamsPlugin.getTeamManager().getTeam(breeder.getUniqueId());
 
-        if (team != Team.TAMER) {
-            breeder.sendMessage(ChatColor.DARK_RED + "You must be a Tamer to breed/tame this animal.");
+        if (team != Team.ASSASSIN) {
+            breeder.sendMessage(ChatColor.DARK_RED + "You must be a ASSASSIN to breed/tame this animal.");
             e.setCancelled(true);
         }
     }
@@ -67,9 +67,9 @@ public class MiscListener implements Listener {
             }
         }
 
-        if (!(p.hasPermission("teams.bypass.craft") || team == Team.ARCHER)) {
+        if (!(p.hasPermission("teams.bypass.craft") || team == Team.VIKING)) {
             if (result == Material.BOW || result == Material.CROSSBOW) {
-                p.sendMessage(ChatColor.RED + "You must be an Archer to craft this item.");
+                p.sendMessage(ChatColor.RED + "You must be an VIKING to craft this item.");
                 e.setCancelled(true);
             }
         }
