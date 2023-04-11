@@ -77,7 +77,7 @@ public class ConnectionListener implements Listener {
 
         final Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
         this.teamsPlugin.getTeamManager().unload(event.getPlayer().getUniqueId());
-        Bukkit.getServer().broadcastMessage("&c" + player.getName() + " &7&oleft the game.");
+        Bukkit.getServer().broadcastMessage(ColourUtils.colour("&c" + player.getName() + " &7&oleft the game."));
     }
 
 }
