@@ -1,6 +1,7 @@
 package me.goodwilled.teams.commands;
 
 import me.goodwilled.teams.TeamsPlugin;
+import me.goodwilled.teams.gui.TeamsGui;
 import me.goodwilled.teams.utils.ColourUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,8 +23,12 @@ public class TeamsCommand implements CommandExecutor {
         if (!(sender instanceof Player)) {
             return true;
         }
+
+
+        final Player player = (Player) sender;
+
         if (args.length == 0) {
-            ((Player) sender).openInventory(TeamsPlugin.createTeamsGui());
+            player.openInventory(TeamsGui.forPlayer(player));
             return true;
         }
 

@@ -2,6 +2,7 @@ package me.goodwilled.teams.listeners;
 
 import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
+import me.goodwilled.teams.gui.TeamsGui;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        if (e.getView().getTitle().equals(TeamsPlugin.TEAMS_GUI_TITLE)) {
+        if (e.getView().getTitle().equals(TeamsGui.TITLE)) {
             e.setCancelled(true);
 
             Team team = null;
