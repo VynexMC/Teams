@@ -30,10 +30,8 @@ public class InventoryListener implements Listener {
                     break;
                 case 12:
                     team = Team.MAGE;
-
                     p.setWalkSpeed(0.3f);
                     p.setFlySpeed(0.3f);
-
                     break;
                 case 14:
                     team = Team.ASSASSIN;
@@ -57,14 +55,7 @@ public class InventoryListener implements Listener {
             }
 
             this.teamsPlugin.getTeamManager().setTeam(p.getUniqueId(), team, newTeam -> {
-                p.sendMessage(TeamsPlugin.PREFIX + ChatColor.AQUA + "Set your team to " + ChatColor.GOLD + newTeam.name() + ".");
-
-                for (Player online : Bukkit.getOnlinePlayers()) {
-                    final Team onlinePlayerTeam = this.teamsPlugin.getTeamManager().getTeam(online.getUniqueId());
-                    if (onlinePlayerTeam != newTeam) {
-                        online.sendTitle(ChatColor.DARK_RED + "An enemy emerges...", ChatColor.GOLD + "Defend what's yours.", 25, 60, 25);
-                    }
-                }
+                p.sendMessage(TeamsPlugin.PREFIX + ChatColor.AQUA + "Set your team to " + ChatColor.GREEN + newTeam.name() + ".");
             });
 
             p.closeInventory();
