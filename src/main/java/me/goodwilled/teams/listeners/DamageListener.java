@@ -31,7 +31,7 @@ public class DamageListener implements Listener {
                 e.setCancelled(true);
                 attacker.sendTitle(ChatColor.DARK_RED + "No! ", ChatColor.WHITE + "Do not hit teammates.", 15, 15, 15);
             } else {
-                if (attackerTeam == Team.TAMER) {
+                if (attackerTeam == Team.ASSASSIN) {
                     if (!victim.hasPotionEffect(PotionEffectType.WITHER)) {
                         victim.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 150, 1));
                     }
@@ -39,7 +39,7 @@ public class DamageListener implements Listener {
                     if (!attacker.hasPotionEffect(PotionEffectType.SPEED)) {
                         attacker.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 60, 2, false, false));
                     }
-                } else if (attackerTeam == Team.ARCHER) {
+                } else if (attackerTeam == Team.VIKING) {
                     victim.setHealth(victim.getHealth() - 1.5);
                 } else if (attackerTeam == Team.KNIGHT) {
                     double dur = 0.5;
@@ -52,7 +52,7 @@ public class DamageListener implements Listener {
         }
         if (entityAttacker instanceof Player) {
             Player attacker = (Player) e.getDamager();
-            if (this.teamsPlugin.getTeamManager().getTeam(attacker.getUniqueId()) == Team.ARCHER) {
+            if (this.teamsPlugin.getTeamManager().getTeam(attacker.getUniqueId()) == Team.VIKING) {
                 e.setDamage(3);
             }
         }
@@ -83,7 +83,7 @@ public class DamageListener implements Listener {
         if (entityAttacker instanceof Witch) {
             if (entityVictim instanceof Player) {
                 Player victim = (Player) e.getEntity();
-                if (this.teamsPlugin.getTeamManager().getTeam(victim.getUniqueId()) == Team.ARCHER) {
+                if (this.teamsPlugin.getTeamManager().getTeam(victim.getUniqueId()) == Team.VIKING) {
                     e.setCancelled(true);
                 }
             }
