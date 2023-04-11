@@ -47,6 +47,15 @@ public class InventoryListener implements Listener {
                 return;
             }
 
+            final Team currentTeam = this.teamsPlugin.getTeamManager().getTeam(p.getUniqueId());
+
+            // They're not the default team, so we know to charge them for a team change.
+            if (currentTeam != Team.CITIZEN) {
+                this.teamsPlugin.getEconomy().ifPresent(economy ->
+                        economy.withdrawPlayer(p, this.teamsPlugin.getConfig().getDouble("team-change-fee"))
+                );
+            }
+
             this.teamsPlugin.getTeamManager().setTeam(p.getUniqueId(), team, newTeam -> {
                 p.sendMessage(TeamsPlugin.PREFIX + ChatColor.AQUA + "Set your team to " + ChatColor.GOLD + newTeam.name() + ".");
 

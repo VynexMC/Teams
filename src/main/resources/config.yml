@@ -4,6 +4,9 @@ knightPrefix: "&9Knight &r"
 archerPrefix: "&6Archer &r"
 tamerPrefix: "&5Tamer &r"
 
+# The cost of changing teams. It's a hefty one.
+team-change-fee: 50000
+
 storage:
   # Types: YAML or MySQL
   type: YAML
