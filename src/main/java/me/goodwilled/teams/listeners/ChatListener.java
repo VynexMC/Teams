@@ -50,9 +50,10 @@ public class ChatListener implements Listener {
         // Message
         builder.append(ColourUtils.colour("&8 \u00BB &r" + event.getMessage())).reset();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            event.getRecipients().clear();
             onlinePlayer.spigot().sendMessage(builder.create());
         }
-        event.setCancelled(true);
+        //event.setCancelled(true);
 
         // Send a copy to Console
         Bukkit.getLogger().info(this.getGroup(player) + " " + player.getName() + ": " + event.getMessage());
