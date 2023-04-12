@@ -1,8 +1,8 @@
 prefix: "&8[&4Teams&8] &r"
 magePrefix: "&2Mage &r"
 knightPrefix: "&9Knight &r"
-archerPrefix: "&6Archer &r"
-tamerPrefix: "&5Tamer &r"
+VIKINGPrefix: "&6VIKING &r"
+ASSASSINPrefix: "&5ASSASSIN &r"
 
 # The cost of changing teams. It's a hefty one.
 team-change-fee: 50000

@@ -24,56 +24,6 @@ public class MiscListener implements Listener {
         this.teamsPlugin = teamsPlugin;
     }
 
-    @EventHandler
-    public void entityTame(EntityTameEvent e) {
-        final Player entityOwner = (Player) e.getOwner();
-
-        final Team team = this.teamsPlugin.getTeamManager().getTeam(entityOwner.getUniqueId());
-
-        if (team != Team.TAMER || !entityOwner.hasPermission("teams.bypass.tame")) {
-            e.setCancelled(true);
-            entityOwner.sendMessage(ChatColor.DARK_RED + "You must be a Tamer to breed/tame this animal.");
-        }
-    }
-
-    @EventHandler
-    public void entityBreed(EntityBreedEvent e) {
-        final Player breeder = (Player) e.getBreeder();
-
-        if (breeder.hasPermission("teams.bypass.tame")) {
-            return;
-        }
-
-        final Team team = this.teamsPlugin.getTeamManager().getTeam(breeder.getUniqueId());
-
-        if (team != Team.TAMER) {
-            breeder.sendMessage(ChatColor.DARK_RED + "You must be a Tamer to breed/tame this animal.");
-            e.setCancelled(true);
-        }
-    }
-
-
-    @EventHandler
-    public void onCraft(CraftItemEvent e) {
-        Player p = (Player) e.getWhoClicked();
-        final Material result = e.getRecipe().getResult().getType();
-
-        final Team team = this.teamsPlugin.getTeamManager().getTeam(p.getUniqueId());
-
-        if (!(p.hasPermission("teams.bypass.craft") || team == Team.KNIGHT)) {
-            if (this.isSword(result)) {
-                p.sendMessage(ChatColor.RED + "&4You must be a Knight to craft this item.");
-                e.setCancelled(true);
-            }
-        }
-
-        if (!(p.hasPermission("teams.bypass.craft") || team == Team.ARCHER)) {
-            if (result == Material.BOW || result == Material.CROSSBOW) {
-                p.sendMessage(ChatColor.RED + "You must be an Archer to craft this item.");
-                e.setCancelled(true);
-            }
-        }
-    }
 
     // What is this? It seemingly adds no functionality to this plugin what-so-ever.
     // Are Mages going to be able to throw fireballs in the future?
