@@ -1,5 +1,6 @@
 package me.goodwilled.teams.listeners;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
 import me.goodwilled.teams.utils.ColourUtils;
@@ -33,7 +34,7 @@ public class ChatListener implements Listener {
 
         final ComponentBuilder builder = new ComponentBuilder();
         String town = "%townyadvanced_town";
-        builder.append(ColourUtils.colour("&7(" + town + "&7) "));
+        builder.append(ColourUtils.colour("&7(" + PlaceholderAPI.setPlaceholders(player, town) + "&7) "));
 
         // Team prefix
         builder.append(ColourUtils.colour(team.getPrefix()))
