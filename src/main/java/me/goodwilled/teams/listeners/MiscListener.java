@@ -18,17 +18,6 @@ public class MiscListener implements Listener {
         this.teamsPlugin = teamsPlugin;
     }
 
-
-    // What is this? It seemingly adds no functionality to this plugin what-so-ever.
-    // Are Mages going to be able to throw fireballs in the future?
-    // You should definitely check who threw the fireball in that case.
-    @EventHandler
-    public void onBlockIgnite(BlockIgniteEvent event) {
-        if (event.getCause() == BlockIgniteEvent.IgniteCause.FIREBALL) {
-            event.setCancelled(true);
-        }
-    }
-
     private boolean isSword(Material material) {
         for (Material swordMaterial : SWORD_MATERIALS) {
             if (material == swordMaterial) {
