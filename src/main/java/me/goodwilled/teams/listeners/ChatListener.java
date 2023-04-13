@@ -32,12 +32,14 @@ public class ChatListener implements Listener {
         Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
 
         final ComponentBuilder builder = new ComponentBuilder();
+        String town = "%townyadvanced_town";
+        builder.append(ColourUtils.colour("&7(" + town + "&7) "));
+
         // Team prefix
         builder.append(ColourUtils.colour(team.getPrefix()))
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                         new Text(ColourUtils.colour(String.join("\n", team.getDescription())))
                 ));
-
         // Space between prefix & name.
         builder.append(" ").reset();
 
@@ -48,7 +50,7 @@ public class ChatListener implements Listener {
                 .event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "));
 
         // Message
-        builder.append(ColourUtils.colour("&8 \u00BB &r" + event.getMessage())).reset();
+        builder.append(ColourUtils.colour("&8 » &r" + event.getMessage())).reset();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.spigot().sendMessage(builder.create());
         }
