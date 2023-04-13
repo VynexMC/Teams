@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 
 public class TeamManager {
     private final Map<UUID, Team> teams = new HashMap<>();
+    private final Set<UUID> firstTeamChange = new HashSet<>();
 
     private final Storage storage;
 
@@ -44,7 +45,10 @@ public class TeamManager {
      * This method stays private, Tyler... If you want to load a user's data, call the above method from a separate thread.
      */
     private Team loadUser(UUID uuid) {
-        return this.teams.computeIfAbsent(uuid, id -> this.storage.getTeam(id).orElse(Team.CITIZEN));
+        return this.teams.computeIfAbsent(uuid, id -> this.storage.getTeam(id).orElseGet(() -> {
+            this.firstTeamChange.add(id);
+            return Team.CITIZEN;
+        }));
     }
 
     public void setTeam(UUID uuid, Team team, Consumer<Team> consumer) {
@@ -53,6 +57,10 @@ public class TeamManager {
 
     public void unload(UUID uuid) {
         this.teams.remove(uuid);
+    }
+
+    public boolean isFirstTeamChange(UUID uuid) {
+        return this.firstTeamChange.contains(uuid);
     }
 
     public Team getTeam(UUID uuid) {
