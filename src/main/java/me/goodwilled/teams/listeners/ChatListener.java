@@ -1,14 +1,11 @@
 package me.goodwilled.teams.listeners;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
 import me.goodwilled.teams.utils.ColourUtils;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,29 +25,11 @@ public class ChatListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
-
         Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
-
-        final ComponentBuilder builder = new ComponentBuilder();
-        // Team prefix
-        builder.append(ColourUtils.colour(team.getPrefix()))
-                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                        new Text(ColourUtils.colour(String.join("\n", team.getDescription())))
-                ));
-
-        // Space between prefix & name.
-        builder.append(" ").reset();
-
         // Player's display name
         final String prefix = this.getPrefix(event.getPlayer()).orElse("&f");
-        builder.append(ColourUtils.colour(prefix + player.getDisplayName()))
-                .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ColourUtils.colour(this.getGroup(player)))))
-                .event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + player.getName() + " "));
-
-        // Message
-        builder.append(ColourUtils.colour("&8 \u00BB &r" + event.getMessage())).reset();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            onlinePlayer.spigot().sendMessage(builder.create());
+            onlinePlayer.sendMessage(ColourUtils.colour("&7(" + PlaceholderAPI.setPlaceholders(player, "%townychat_town%") + "&7) " + team.getPrefix() + " " + prefix + player.getDisplayName() + "&8 \u00BB &r" + event.getMessage()));
         }
         event.getRecipients().clear();
     }

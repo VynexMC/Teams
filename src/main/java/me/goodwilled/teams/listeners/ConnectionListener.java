@@ -36,7 +36,7 @@ public class ConnectionListener implements Listener {
         } else {
             switch (team) {
                 case KNIGHT -> {
-                    Bukkit.getServer().broadcastMessage(ColourUtils.colour("&5&oBe warned... a &9Knight &5&ohas joined the game."));
+                    Bukkit.getServer().broadcastMessage(ColourUtils.colour("&5&oBe warned... a &3Knight &5&ohas joined the game."));
                     Bukkit.getServer().broadcastMessage(ColourUtils.colour("&5&oGreetings, &a" + player.getName() + "&5&o."));
                 }
                 case ASSASSIN -> {
