@@ -4,6 +4,7 @@ import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
 import me.goodwilled.teams.utils.ColourUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -15,8 +16,17 @@ import java.util.Collections;
 public class TeamsGui {
     public static final String TITLE = "Teams";
 
+    private static final ItemStack LEAVE_TEAM_ICON = new ItemStack(Material.BARRIER);
+
+    static {
+        final ItemMeta leaveTeamIconMeta = LEAVE_TEAM_ICON.getItemMeta();
+        leaveTeamIconMeta.setDisplayName(ColourUtils.colour("&cLeave Team"));
+        leaveTeamIconMeta.setLore(Collections.singletonList(ColourUtils.colour("&fClick here to leave your current team.")));
+        LEAVE_TEAM_ICON.setItemMeta(leaveTeamIconMeta);
+    }
+
     public static Inventory forPlayer(Player player) {
-        final Inventory inventory = Bukkit.createInventory(null, 27, TITLE);
+        final Inventory inventory = Bukkit.createInventory(null, 36, TITLE);
 
         int slot = 10;
         for (Team team : Team.values()) {
@@ -39,7 +49,7 @@ public class TeamsGui {
                 meta.setLore(Collections.singletonList(ColourUtils.colour("&cYou are already on this team.")));
             } else {
                 meta.setDisplayName(team.getPrefix());
-                meta.setLore(Arrays.asList(team.getDescription()));
+                meta.setLore(Arrays.stream(team.getDescription()).map(ColourUtils::colour).toList());
             }
 
 
@@ -48,6 +58,8 @@ public class TeamsGui {
             inventory.setItem(slot, icon);
             slot += 2;
         }
+
+        inventory.setItem(31, LEAVE_TEAM_ICON);
 
         return inventory;
     }
