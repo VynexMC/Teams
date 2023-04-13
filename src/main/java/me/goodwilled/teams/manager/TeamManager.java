@@ -56,6 +56,7 @@ public class TeamManager {
     }
 
     public void unload(UUID uuid) {
+        this.firstTeamChange.remove(uuid);
         this.teams.remove(uuid);
     }
 
