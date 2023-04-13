@@ -1,16 +1,10 @@
 package me.goodwilled.teams.listeners;
 
-import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.entity.EntityBreedEvent;
-import org.bukkit.event.entity.EntityTameEvent;
-import org.bukkit.event.inventory.CraftItemEvent;
 
 public class MiscListener implements Listener {
     private static final Material[] SWORD_MATERIALS = {

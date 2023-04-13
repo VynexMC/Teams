@@ -13,16 +13,10 @@ import me.goodwilled.teams.storage.YamlStorage;
 import net.luckperms.api.LuckPerms;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collections;
 import java.util.Optional;
 
 public class TeamsPlugin extends JavaPlugin {
@@ -80,18 +74,17 @@ public class TeamsPlugin extends JavaPlugin {
             throw new NullPointerException("Storage type cannot be null!");
         }
         switch (storageType) {
-            case "YAML":
-                this.storage = new YamlStorage(this.getDataFolder().toPath().resolve("teams.yml"));
-            case "MySQL":
-                this.storage = new MySqlStorage(this.getConfig().getString("storage.credentials.host"),
-                        this.getConfig().getInt("storage.credentials.port"),
-                        this.getConfig().getString("storage.credentials.database"),
-                        this.getConfig().getString("storage.credentials.username"),
-                        this.getConfig().getString("storage.credentials.password")
-                );
-            default:
+            case "YAML" -> this.storage = new YamlStorage(this.getDataFolder().toPath().resolve("teams.yml"));
+            case "MySQL" -> this.storage = new MySqlStorage(this.getConfig().getString("storage.credentials.host"),
+                    this.getConfig().getInt("storage.credentials.port"),
+                    this.getConfig().getString("storage.credentials.database"),
+                    this.getConfig().getString("storage.credentials.username"),
+                    this.getConfig().getString("storage.credentials.password")
+            );
+            default -> {
                 this.getLogger().warning("Invalid storage type: " + storageType + ". Defaulting to YAML.");
                 this.storage = new YamlStorage(this.getDataFolder().toPath().resolve("teams.yml"));
+            }
         }
         this.storage.init();
         this.teamManager = new TeamManager(this.storage);
