@@ -9,5 +9,6 @@ softdepend: [ LuckPerms, Vault ]
 
 commands:
   teams:
-    usage: /<command>
+    aliases: [ team ]
+    usage: /<command> [team]
     description: Plugin command.

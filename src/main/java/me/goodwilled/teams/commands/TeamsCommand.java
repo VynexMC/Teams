@@ -1,5 +1,6 @@
 package me.goodwilled.teams.commands;
 
+import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
 import me.goodwilled.teams.gui.TeamsGui;
 import me.goodwilled.teams.utils.ColourUtils;
@@ -12,10 +13,10 @@ import java.util.Locale;
 
 
 public class TeamsCommand implements CommandExecutor {
-    private final TeamsPlugin plugin;
+    private final TeamsPlugin teamsPlugin;
 
-    public TeamsCommand(TeamsPlugin plugin) {
-        this.plugin = plugin;
+    public TeamsCommand(TeamsPlugin teamsPlugin) {
+        this.teamsPlugin = teamsPlugin;
     }
 
     @Override
@@ -34,14 +35,21 @@ public class TeamsCommand implements CommandExecutor {
 
         final String argument = args[0].toLowerCase(Locale.ROOT);
 
-        if (argument.equals("reload") && sender.hasPermission("teams.reload")) {
+        if (argument.equalsIgnoreCase("leave")) {
+            this.teamsPlugin.getTeamManager().setTeam(player.getUniqueId(), Team.CITIZEN, ignored ->
+                    player.sendMessage(ColourUtils.colour(TeamsPlugin.PREFIX + "&cYou have left your team."))
+            );
+            return true;
+        }
+
+        if (argument.equalsIgnoreCase("reload") && sender.hasPermission("teams.reload")) {
             long elapsed;
             if (args.length > 1) {
                 final String[] flags = new String[args.length - 1];
                 System.arraycopy(args, 1, flags, 0, args.length - 1);
-                elapsed = this.plugin.reload(flags);
+                elapsed = this.teamsPlugin.reload(flags);
             } else {
-                elapsed = this.plugin.reload("-config");
+                elapsed = this.teamsPlugin.reload("-config");
             }
             sender.sendMessage(ColourUtils.colour(TeamsPlugin.PREFIX + "&aPlugin reloaded in " + elapsed + "ms."));
         }
