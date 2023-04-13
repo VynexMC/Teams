@@ -1,5 +1,6 @@
 package me.goodwilled.teams.commands;
 
+import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
 import me.goodwilled.teams.gui.TeamsGui;
 import me.goodwilled.teams.utils.ColourUtils;
@@ -34,7 +35,14 @@ public class TeamsCommand implements CommandExecutor {
 
         final String argument = args[0].toLowerCase(Locale.ROOT);
 
-        if (argument.equals("reload") && sender.hasPermission("teams.reload")) {
+        if (argument.equalsIgnoreCase("leave")) {
+            this.plugin.getTeamManager().setTeam(player.getUniqueId(), Team.CITIZEN, team ->
+                    player.sendMessage(ColourUtils.colour(TeamsPlugin.PREFIX + "&cYou have left your team."))
+            );
+            return true;
+        }
+
+        if (argument.equalsIgnoreCase("reload") && sender.hasPermission("teams.reload")) {
             long elapsed;
             if (args.length > 1) {
                 final String[] flags = new String[args.length - 1];
