@@ -53,9 +53,6 @@ public class ChatListener implements Listener {
             onlinePlayer.spigot().sendMessage(builder.create());
         }
         event.getRecipients().clear();
-
-        // Send a copy to Console
-        Bukkit.getLogger().info(this.getGroup(player) + " " + player.getName() + ": " + event.getMessage());
     }
 
     private String getGroup(Player player) {
