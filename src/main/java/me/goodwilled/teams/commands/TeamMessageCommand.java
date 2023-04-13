@@ -15,7 +15,6 @@ public class TeamMessageCommand implements CommandExecutor {
     public TeamMessageCommand(TeamsPlugin teamsPlugin){
         this.teamsPlugin = teamsPlugin;
     }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         final Player player = (Player) sender;

@@ -24,7 +24,6 @@ public class ChatListener implements Listener {
     public ChatListener(TeamsPlugin teamsPlugin) {
         this.teamsPlugin = teamsPlugin;
     }
-
     @EventHandler(priority = EventPriority.MONITOR)
     public void onChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
@@ -53,7 +52,6 @@ public class ChatListener implements Listener {
             event.getRecipients().clear();
             onlinePlayer.spigot().sendMessage(builder.create());
         }
-        //event.setCancelled(true);
 
         // Send a copy to Console
         Bukkit.getLogger().info(this.getGroup(player) + " " + player.getName() + ": " + event.getMessage());
