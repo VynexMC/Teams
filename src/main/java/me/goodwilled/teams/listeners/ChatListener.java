@@ -28,7 +28,7 @@ public class ChatListener implements Listener {
         // Player's display name
         final String prefix = this.getPrefix(event.getPlayer()).orElse("&f");
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            onlinePlayer.sendMessage(team.getPrefix() + " " + prefix + player.getDisplayName() + "&8 \u00BB &r" + event.getMessage());
+            onlinePlayer.sendMessage(ColourUtils.colour(team.getPrefix() + " " + prefix + player.getDisplayName() + "&8 \u00BB &r" + event.getMessage()));
         }
         event.getRecipients().clear();
     }
