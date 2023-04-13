@@ -48,8 +48,7 @@ public class InventoryListener implements Listener {
 
             final double teamChangeFee = this.teamsPlugin.getConfig().getDouble("team-change-fee");
 
-            // They're not the default team, so we know to charge them for a team change.
-            if (this.teamsPlugin.getTeamManager().isFirstTeamChange(player.getUniqueId())) {
+            if (!this.teamsPlugin.getTeamManager().isFirstTeamChange(player.getUniqueId())) {
                 this.teamsPlugin.getEconomy().ifPresent(economy -> {
                             economy.withdrawPlayer(player, teamChangeFee);
                             player.sendMessage(TeamsPlugin.PREFIX + ChatColor.RED + "-" + ChatColor.DARK_GREEN + "$" + ChatColor.GREEN + teamChangeFee);
