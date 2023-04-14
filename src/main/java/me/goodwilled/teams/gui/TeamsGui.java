@@ -54,16 +54,18 @@ public class TeamsGui {
                 continue;
             }
 
-            if (team == currentTeam) {
-                meta.setDisplayName(team.getPrefix() + ColourUtils.colour(" &c(Current team)"));
-            } else {
-                meta.setDisplayName(team.getPrefix());
-            }
-
             final List<String> description = Arrays.stream(team.getDescription()).map(ColourUtils::colour).collect(Collectors.toList());
+
             description.add(0, ""); // Blank line.
             description.add(""); // Yet another blank line.
-            description.add(ChatColor.RED + "Fee: " + ChatColor.DARK_GREEN + "$" + ChatColor.GREEN + plugin.getConfig().getDouble("team-change-fee"));
+
+            if (team == currentTeam) {
+                meta.setDisplayName(team.getPrefix());
+                description.add(ChatColor.RED + "You are already on this team.");
+            } else {
+                meta.setDisplayName(team.getPrefix());
+                description.add(ChatColor.RED + "Fee: " + ChatColor.DARK_GREEN + "$" + ChatColor.GREEN + plugin.getConfig().getDouble("team-change-fee"));
+            }
 
             meta.setLore(description);
             icon.setItemMeta(meta);
