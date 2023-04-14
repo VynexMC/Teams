@@ -56,9 +56,15 @@ public class InventoryListener implements Listener {
                 );
             }
 
-            this.teamsPlugin.getTeamManager().setTeam(player.getUniqueId(), team, newTeam ->
-                    player.sendMessage(TeamsPlugin.PREFIX + ChatColor.AQUA + "Set your team to " + ChatColor.GREEN + newTeam.getPrefix())
-            );
+            final Team currentTeam = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
+
+            if (team == currentTeam) {
+                player.sendMessage(TeamsPlugin.PREFIX + ChatColor.RED + "You are already on the " + currentTeam.getPrefix() + ChatColor.RED + " team.");
+            } else {
+                this.teamsPlugin.getTeamManager().setTeam(player.getUniqueId(), team, newTeam ->
+                        player.sendMessage(TeamsPlugin.PREFIX + ChatColor.AQUA + "Set your team to " + ChatColor.GREEN + newTeam.getPrefix())
+                );
+            }
 
             player.closeInventory();
         }
