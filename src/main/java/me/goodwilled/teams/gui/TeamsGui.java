@@ -50,14 +50,12 @@ public class TeamsGui {
             }
 
             if (team == currentTeam) {
-                meta.setDisplayName(team.getPrefix());
-                meta.setLore(Collections.singletonList(ColourUtils.colour("&cYou are already on this team.")));
+                meta.setDisplayName(team.getPrefix() + ColourUtils.colour(" &c(Current team)"));
             } else {
                 meta.setDisplayName(team.getPrefix());
-                meta.setLore(Arrays.stream(team.getDescription()).map(ColourUtils::colour).toList());
             }
 
-
+            meta.setLore(Arrays.stream(team.getDescription()).map(ColourUtils::colour).toList());
             icon.setItemMeta(meta);
 
             inventory.setItem(slot, icon);
