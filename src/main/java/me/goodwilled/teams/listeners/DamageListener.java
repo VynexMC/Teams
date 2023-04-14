@@ -79,6 +79,7 @@ public class DamageListener implements Listener {
         if (entityAttacker instanceof Player && (!(entityVictim instanceof Player))) {
             Player attacker = (Player) entityAttacker;
             // do some shit in here
+            // What kind of shit we talking?
         }
         if (entityAttacker instanceof Witch) {
             if (entityVictim instanceof Player) {

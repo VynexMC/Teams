@@ -26,7 +26,15 @@ public class TeamsGui {
     }
 
     public static Inventory forPlayer(Player player) {
-        final Inventory inventory = Bukkit.createInventory(null, 36, TITLE);
+        // Don't ever do this, it's horrible. I'm just being lazy.
+        final Team currentTeam = TeamsPlugin.getPlugin(TeamsPlugin.class).getTeamManager().getTeam(player.getUniqueId());
+
+        int rows = 3;
+        if (currentTeam != Team.CITIZEN) {
+            rows += 1;
+        }
+
+        final Inventory inventory = Bukkit.createInventory(null, rows * 9, TITLE);
 
         int slot = 10;
         for (Team team : Team.values()) {
@@ -40,9 +48,6 @@ public class TeamsGui {
             if (meta == null) {
                 continue;
             }
-
-            // Don't ever do this, it's horrible. I'm just being lazy.
-            final Team currentTeam = TeamsPlugin.getPlugin(TeamsPlugin.class).getTeamManager().getTeam(player.getUniqueId());
 
             if (team == currentTeam) {
                 meta.setDisplayName(team.getPrefix());
@@ -59,7 +64,9 @@ public class TeamsGui {
             slot += 2;
         }
 
-        inventory.setItem(31, LEAVE_TEAM_ICON);
+        if (currentTeam != Team.CITIZEN) {
+            inventory.setItem(31, LEAVE_TEAM_ICON);
+        }
 
         return inventory;
     }
