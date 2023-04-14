@@ -3,6 +3,7 @@ package me.goodwilled.teams.gui;
 import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
 import me.goodwilled.teams.utils.ColourUtils;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,8 +13,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TeamsGui {
+    // Don't ever do this, it's horrible. I'm just being lazy. I'll fix it eventually... Yeah...
+    private static final TeamsPlugin plugin = TeamsPlugin.getPlugin(TeamsPlugin.class);
+
     public static final String TITLE = "Teams";
 
     private static final ItemStack LEAVE_TEAM_ICON = new ItemStack(Material.BARRIER);
@@ -26,8 +32,7 @@ public class TeamsGui {
     }
 
     public static Inventory forPlayer(Player player) {
-        // Don't ever do this, it's horrible. I'm just being lazy.
-        final Team currentTeam = TeamsPlugin.getPlugin(TeamsPlugin.class).getTeamManager().getTeam(player.getUniqueId());
+        final Team currentTeam = plugin.getTeamManager().getTeam(player.getUniqueId());
 
         int rows = 3;
         if (currentTeam != Team.CITIZEN) {
@@ -55,7 +60,12 @@ public class TeamsGui {
                 meta.setDisplayName(team.getPrefix());
             }
 
-            meta.setLore(Arrays.stream(team.getDescription()).map(ColourUtils::colour).toList());
+            final List<String> description = Arrays.stream(team.getDescription()).map(ColourUtils::colour).collect(Collectors.toList());
+            description.add(0, ""); // Blank line.
+            description.add(""); // Yet another blank line.
+            description.add(ChatColor.RED + "Fee: " + ChatColor.DARK_GREEN + "$" + ChatColor.GREEN + plugin.getConfig().getDouble("team-change-fee"));
+
+            meta.setLore(description);
             icon.setItemMeta(meta);
 
             inventory.setItem(slot, icon);
