@@ -143,7 +143,7 @@ public enum Team {
         @Override
         public double applyCombatProtections(Entity attacker, Player victim, double baseDamage) {
             if (attacker instanceof Witch) {
-                return -1; // -1 cancels the damage event.
+                return -1.0d; // -1 cancels the damage event.
             }
             return baseDamage;
         }

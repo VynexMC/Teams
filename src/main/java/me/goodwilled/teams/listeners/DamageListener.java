@@ -21,20 +21,21 @@ public class DamageListener implements Listener {
         final Entity attacker = e.getDamager();
         final Entity victim = e.getEntity();
 
-        final Team attackerTeam = this.teamsPlugin.getTeamManager().getTeam(attacker.getUniqueId());
-
-        if (attackerTeam == Team.CITIZEN) {
-            return;
-        }
-
         if (!(attacker instanceof Player)) {
             if (victim instanceof Player) {
-                final double damage = attackerTeam.applyCombatProtections(attacker, (Player) victim, e.getDamage());
+                final Team victimTeam = this.teamsPlugin.getTeamManager().getTeam(victim.getUniqueId());
+                final double damage = victimTeam.applyCombatProtections(attacker, (Player) victim, e.getDamage());
                 if (damage == -1) {
                     e.setCancelled(true);
                 }
                 e.setDamage(damage);
             }
+            return;
+        }
+
+        final Team attackerTeam = this.teamsPlugin.getTeamManager().getTeam(attacker.getUniqueId());
+
+        if (attackerTeam == Team.CITIZEN) {
             return;
         }
 
