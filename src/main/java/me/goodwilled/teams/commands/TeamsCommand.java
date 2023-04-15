@@ -36,6 +36,13 @@ public class TeamsCommand implements CommandExecutor {
         final String argument = args[0].toLowerCase(Locale.ROOT);
 
         if (argument.equalsIgnoreCase("leave")) {
+            final Team currentTeam = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
+
+            if (currentTeam == Team.CITIZEN) {
+                player.sendMessage(ColourUtils.colour(TeamsPlugin.PREFIX + "&cYou are not currently on a team."));
+                return true;
+            }
+
             this.teamsPlugin.getTeamManager().setTeam(player.getUniqueId(), Team.CITIZEN, ignored ->
                     player.sendMessage(ColourUtils.colour(TeamsPlugin.PREFIX + "&cYou have left your team."))
             );
