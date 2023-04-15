@@ -46,14 +46,14 @@ public class ConnectionListener implements Listener {
                 case MAGE -> {
                     Bukkit.getServer().broadcastMessage(ColourUtils.colour("&3&oA strong breeze blows through the world... because a &2Mage &3&ohas joined the game."));
                     Bukkit.getServer().broadcastMessage(ColourUtils.colour("&3&oHello, &a" + player.getName() + "&3&o."));
-                    player.setWalkSpeed(0.3f);
-                    player.setFlySpeed(0.3f);
                 }
                 case VIKING -> {
                     Bukkit.getServer().broadcastMessage(ColourUtils.colour("&c&oCarry a shield with you... because a &6Viking &c&ohas joined the game."));
                     Bukkit.getServer().broadcastMessage(ColourUtils.colour("&c&oWe missed you, &a" + player.getName() + "&c&o."));
                 }
             }
+
+            team.applyJoinPerks(player);
         }
     }
 
