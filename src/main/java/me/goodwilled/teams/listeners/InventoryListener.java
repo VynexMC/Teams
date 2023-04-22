@@ -50,8 +50,12 @@ public class InventoryListener implements Listener {
 
             if (!this.teamsPlugin.getTeamManager().isFirstTeamChange(player.getUniqueId())) {
                 this.teamsPlugin.getEconomy().ifPresent(economy -> {
-                            economy.withdrawPlayer(player, teamChangeFee);
-                            player.sendMessage(TeamsPlugin.PREFIX + ChatColor.RED + "-" + ChatColor.DARK_GREEN + "$" + ChatColor.GREEN + teamChangeFee);
+                           if(this.teamsPlugin.getEconomy().get().getBalance(player) >= teamChangeFee) {
+                               economy.withdrawPlayer(player, teamChangeFee);
+                               player.sendMessage(TeamsPlugin.PREFIX + ChatColor.RED + "-" + ChatColor.DARK_GREEN + "$" + ChatColor.GREEN + teamChangeFee);
+                           } else {
+                               player.sendMessage(TeamsPlugin.PREFIX + ColourUtils.colour("&cYou do not have enough money to change your team."));
+                           }
                         }
                 );
             }
