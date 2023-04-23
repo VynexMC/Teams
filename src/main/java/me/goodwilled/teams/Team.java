@@ -10,10 +10,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public enum Team {
-    CITIZEN(Material.AIR, ColourUtils.colour("&fCitizen"), "This person has no powers.") {
+    CITIZEN(Material.AIR, ColourUtils.colour("&fCitizen"), ColourUtils.colour("&fC"), "This person has no powers.") {
         @Override
         public void applyJoinPerks(Player player) {
             // Nothing to do. Citizens are suck.
@@ -37,6 +40,7 @@ public enum Team {
         }
     },
     KNIGHT(Material.DIAMOND_SWORD, ColourUtils.colour("&3Knight"),
+            ColourUtils.colour("&3K"),
             "&aNot affected by soulsand.",
             "&aAll chestplates have Thorns when equipped.",
             "&aIssues 5s of poison when fighting players. &7(30s cooldown)") {
@@ -73,9 +77,12 @@ public enum Team {
         }
     },
     MAGE(Material.ENDER_PEARL, ColourUtils.colour("&2Mage"),
+            ColourUtils.colour("&2M"),
             "&aIssues 5s of blindness when fighting players. &7(30s cooldown)",
             "&aImmune to magic by Witches.",
             "&aIssues fire aspect against entities and blocks when punching with fist. &7(30s cooldown)") {
+        private final Map<UUID, Long> abilityCoolDowns = new HashMap<>();
+
         @Override
         public void applyJoinPerks(Player player) {
             player.setWalkSpeed(0.3f);
@@ -83,8 +90,9 @@ public enum Team {
 
         @Override
         public double applyCombatPerks(Player attacker, Player victim, double baseDamage) {
-            if (!attacker.hasPotionEffect(PotionEffectType.SPEED)) {
+            if (!attacker.hasPotionEffect(PotionEffectType.SPEED) && (System.currentTimeMillis() - this.abilityCoolDowns.getOrDefault(attacker.getUniqueId(), 0L)) > 30000L) {
                 attacker.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 60, 2, false, false));
+                this.abilityCoolDowns.put(attacker.getUniqueId(), System.currentTimeMillis());
             }
             return baseDamage;
         }
@@ -100,6 +108,7 @@ public enum Team {
         }
     },
     ASSASSIN(Material.BAMBOO, ColourUtils.colour("&4Assassin"),
+            ColourUtils.colour("&4A"),
             "&a+0.3x walk speed increase.",
             "&aFreezes entities for 3 seconds when shooting with an arrow. &7(60s cooldown)",
             "&aGoes invisible for 3 sec when damaged by players. &7(60s cooldown)") {
@@ -126,6 +135,7 @@ public enum Team {
         }
     },
     VIKING(Material.DIAMOND_AXE, ColourUtils.colour("&6Viking"),
+            ColourUtils.colour("&6K"),
             "&aIssues 1.5x damage when using axes.",
             "&aDecreased hit delay when using axes.",
             "&c-0.3x walk speed.") {
@@ -162,11 +172,13 @@ public enum Team {
     };
 
     private final String[] description;
+    private final String shortPrefix;
     private final String prefix;
     private final Material icon;
 
-    Team(Material icon, String prefix, String... description) {
+    Team(Material icon, String prefix, String shortPrefix, String... description) {
         this.description = description;
+        this.shortPrefix = shortPrefix;
         this.prefix = prefix;
         this.icon = icon;
     }
@@ -188,6 +200,10 @@ public enum Team {
 
     public String getPrefix() {
         return this.prefix;
+    }
+
+    public String getPrefixShort() {
+        return this.shortPrefix;
     }
 
     public Material getIcon() {

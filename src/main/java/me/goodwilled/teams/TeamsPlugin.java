@@ -1,12 +1,12 @@
 package me.goodwilled.teams;
 
 import me.goodwilled.teams.commands.TeamsCommand;
-import me.goodwilled.teams.listeners.ChatListener;
 import me.goodwilled.teams.listeners.ConnectionListener;
 import me.goodwilled.teams.listeners.DamageListener;
 import me.goodwilled.teams.listeners.InventoryListener;
 import me.goodwilled.teams.listeners.MiscListener;
 import me.goodwilled.teams.manager.TeamManager;
+import me.goodwilled.teams.papi.TeamsExpansion;
 import me.goodwilled.teams.storage.MySqlStorage;
 import me.goodwilled.teams.storage.Storage;
 import me.goodwilled.teams.storage.YamlStorage;
@@ -34,6 +34,7 @@ public class TeamsPlugin extends JavaPlugin {
         this.initStorage();
         this.getCommand("teams").setExecutor(new TeamsCommand(this));
         this.initListeners();
+        new TeamsExpansion(this).register();
     }
 
     @Override
@@ -61,7 +62,6 @@ public class TeamsPlugin extends JavaPlugin {
 
     private void initListeners() {
         final PluginManager pluginManager = this.getServer().getPluginManager();
-        pluginManager.registerEvents(new ChatListener(this), this);
         pluginManager.registerEvents(new ConnectionListener(this), this);
         pluginManager.registerEvents(new DamageListener(this), this);
         pluginManager.registerEvents(new InventoryListener(this), this);

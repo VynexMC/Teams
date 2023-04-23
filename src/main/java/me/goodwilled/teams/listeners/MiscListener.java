@@ -3,11 +3,8 @@ package me.goodwilled.teams.listeners;
 import me.goodwilled.teams.TeamsPlugin;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockGrowEvent;
-import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class MiscListener implements Listener {
@@ -25,12 +22,12 @@ public class MiscListener implements Listener {
     // me trying to make a farm event check
     public void farmEvent(PlayerInteractEvent event) {
         Player p = event.getPlayer();
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            if(event.getClickedBlock().equals(Material.DIRT)){
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            if (event.getClickedBlock().equals(Material.DIRT)) {
                 if (event.getPlayer().getItemOnCursor().equals(Material.WHEAT_SEEDS) ||
                         event.getPlayer().getItemOnCursor().equals(Material.MELON_SEEDS) ||
-                        event.getPlayer().getItemOnCursor().equals(Material.PUMPKIN_SEEDS)){
-                        // do stuff with teams in here
+                        event.getPlayer().getItemOnCursor().equals(Material.PUMPKIN_SEEDS)) {
+                    // do stuff with teams in here
                 }
             }
         }
