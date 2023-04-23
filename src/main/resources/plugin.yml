@@ -5,6 +5,9 @@ main: me.goodwilled.teams.TeamsPlugin
 version: ${version}
 api-version: 1.16
 
+libraries:
+  - com.zaxxer:HikariCP:5.0.1
+
 softdepend: [ LuckPerms, Vault, PlaceholderAPI ]
 
 commands:

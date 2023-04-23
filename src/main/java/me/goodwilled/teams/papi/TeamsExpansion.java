@@ -6,6 +6,8 @@ import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
+
 public class TeamsExpansion extends PlaceholderExpansion {
     private final TeamsPlugin plugin;
 
@@ -15,7 +17,7 @@ public class TeamsExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return this.plugin.getDescription().getName();
+        return this.plugin.getDescription().getName().toLowerCase(Locale.ROOT);
     }
 
     @Override

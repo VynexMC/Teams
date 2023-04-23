@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 group 'me.goodwilled'
@@ -37,7 +36,7 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.11.3'
 
     // HikariCP.
-    implementation 'com.zaxxer:HikariCP:5.0.1'
+    compileOnly 'com.zaxxer:HikariCP:5.0.1'
 }
 
 processResources {
@@ -46,8 +45,4 @@ processResources {
         expand 'version': project.version
         include 'plugin.yml'
     }
-}
-
-shadowJar {
-    archiveClassifier.set("")
 }
