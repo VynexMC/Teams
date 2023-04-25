@@ -22,11 +22,11 @@ public class MiscListener implements Listener {
     // me trying to make a farm event check
     public void farmEvent(PlayerInteractEvent event) {
         Player p = event.getPlayer();
-        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            if (event.getClickedBlock().equals(Material.DIRT)) {
-                if (event.getPlayer().getItemOnCursor().equals(Material.WHEAT_SEEDS) ||
-                        event.getPlayer().getItemOnCursor().equals(Material.MELON_SEEDS) ||
-                        event.getPlayer().getItemOnCursor().equals(Material.PUMPKIN_SEEDS)) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getClickedBlock().getType() == Material.DIRT) {
+                if (event.getPlayer().getItemOnCursor().getType() == Material.WHEAT_SEEDS ||
+                        event.getPlayer().getItemOnCursor().getType() == Material.MELON_SEEDS||
+                        event.getPlayer().getItemOnCursor().getType() == Material.BEETROOT_SEEDS) {
                     // do stuff with teams in here
                 }
             }
