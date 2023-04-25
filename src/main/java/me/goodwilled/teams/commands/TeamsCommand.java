@@ -42,7 +42,7 @@ public class TeamsCommand implements CommandExecutor {
             return true;
         }
 
-        if (argument.equalsIgnoreCase("reload") && sender.hasPermission("teams.reload")) {
+        if (argument.equalsIgnoreCase("reload") && sender.hasPermission("teams.admin")) {
             long elapsed;
             if (args.length > 1) {
                 final String[] flags = new String[args.length - 1];
@@ -53,6 +53,10 @@ public class TeamsCommand implements CommandExecutor {
             }
             sender.sendMessage(ColourUtils.colour(TeamsPlugin.PREFIX + "&aPlugin reloaded in " + elapsed + "ms."));
         }
+
+
+
         return true;
+
     }
 }
