@@ -52,7 +52,10 @@ public class TeamManager {
     }
 
     public void setTeam(UUID uuid, Team team, Consumer<Team> consumer) {
-        this.updateTeam(uuid, team).thenAcceptAsync(v -> this.teams.put(uuid, team)).thenAccept(v -> consumer.accept(team));
+        this.updateTeam(uuid, team)
+                .thenAcceptAsync(v -> this.teams.put(uuid, team))
+                .thenAccept(v -> this.firstTeamChange.remove(uuid))
+                .thenAccept(v -> consumer.accept(team));
     }
 
     public void unload(UUID uuid) {

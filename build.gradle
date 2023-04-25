@@ -1,10 +1,9 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 group 'me.goodwilled'
-version '1.1.0-SNAPSHOT'
+version '1.1.1-SNAPSHOT'
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
@@ -20,7 +19,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 
     // PlaceholderAPI Repo.
-    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/'}
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
 }
 
 dependencies {
@@ -37,7 +36,7 @@ dependencies {
     compileOnly 'me.clip:placeholderapi:2.11.3'
 
     // HikariCP.
-    implementation 'com.zaxxer:HikariCP:5.0.1'
+    compileOnly 'com.zaxxer:HikariCP:5.0.1'
 }
 
 processResources {
@@ -46,8 +45,4 @@ processResources {
         expand 'version': project.version
         include 'plugin.yml'
     }
-}
-
-shadowJar {
-    archiveClassifier.set("")
 }
