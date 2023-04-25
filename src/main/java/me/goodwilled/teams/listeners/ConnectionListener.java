@@ -3,7 +3,6 @@ package me.goodwilled.teams.listeners;
 import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
 import me.goodwilled.teams.utils.ColourUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,4 +36,8 @@ public class ConnectionListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void on(PlayerQuitEvent event) {
+        this.teamsPlugin.getTeamManager().unload(event.getPlayer().getUniqueId());
+    }
 }

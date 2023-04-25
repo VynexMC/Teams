@@ -25,7 +25,6 @@ public class TeamsCommand implements CommandExecutor {
             return true;
         }
 
-
         final Player player = (Player) sender;
 
         if (args.length == 0) {
@@ -61,9 +60,6 @@ public class TeamsCommand implements CommandExecutor {
             sender.sendMessage(ColourUtils.colour(TeamsPlugin.PREFIX + "&aPlugin reloaded in " + elapsed + "ms."));
         }
 
-
-
         return true;
-
     }
 }
