@@ -1,6 +1,7 @@
 package me.goodwilled.teams.papi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.goodwilled.teams.Team;
 import me.goodwilled.teams.TeamsPlugin;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
@@ -31,16 +32,27 @@ public class TeamsExpansion extends PlaceholderExpansion {
     }
 
     @Override
+    public boolean persist(){
+        return true;
+    } // added this because PAPI docs said to.
+
+    @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String params) {
         if (player.isOnline()) {
-            if (params.equalsIgnoreCase("prefix")) {
-                return this.plugin.getTeamManager().getTeam(player.getUniqueId()).getPrefix();
-            }
+            if(this.plugin.getTeamManager().getTeam(player.getUniqueId()) != null ||
+            this.plugin.getTeamManager().getTeam(player.getUniqueId()) == Team.CITIZEN) {
+                if (params.equalsIgnoreCase("prefix")) {
+                    return this.plugin.getTeamManager().getTeam(player.getUniqueId()).getPrefix();
+                }
 
-            if (params.equalsIgnoreCase("prefix_short")) {
-                return this.plugin.getTeamManager().getTeam(player.getUniqueId()).getPrefixShort();
+                if (params.equalsIgnoreCase("prefix_short")) {
+                    return this.plugin.getTeamManager().getTeam(player.getUniqueId()).getPrefixShort();
+                }
+            } else {
+                return "";
             }
         }
         return null;
     }
+
 }
