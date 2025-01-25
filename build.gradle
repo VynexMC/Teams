@@ -33,7 +33,7 @@ dependencies {
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 
     // PlaceholderAPI.
-    compileOnly 'me.clip:placeholderapi:2.11.3'
+    compileOnly 'me.clip:placeholderapi:2.11.6'
 
     // HikariCP.
     compileOnly 'com.zaxxer:HikariCP:5.0.1'

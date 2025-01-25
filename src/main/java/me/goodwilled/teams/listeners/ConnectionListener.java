@@ -10,6 +10,8 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.Objects;
+
 public class ConnectionListener implements Listener {
 
     private final TeamsPlugin teamsPlugin;
@@ -30,7 +32,8 @@ public class ConnectionListener implements Listener {
         final Team team = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
 
         if (team == Team.CITIZEN) {
-            player.sendMessage(ColourUtils.colour("&aLooks like you haven't selected a Team yet. Do &b/teams &a to do so!"));
+            player.sendMessage(Objects.requireNonNull(ColourUtils
+                    .colour(this.teamsPlugin.getConfig().getString("noTeamJoinMessage"))));
         } else {
             team.applyJoinPerks(player);
         }

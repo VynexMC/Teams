@@ -1,9 +1,10 @@
 prefix: "&8[&4Teams&8] &r"
 magePrefix: "&2Mage &r"
 knightPrefix: "&3Knight &r"
-VIKINGPrefix: "&6VIKING &r"
-ASSASSINPrefix: "&5ASSASSIN &r"
-
+vikingPrefix: "&6VIKING &r"
+assassinPrefix: "&5ASSASSIN &r"
+## noTeamJoinMessage is the message a player gets when they join the server without a team. It's a prompt to join a team, if they wish.
+noTeamJoinMessage: "&aLooks like you haven't selected a team yet. Do &b/teams &a to do so!"
 # The cost of changing teams. It's a hefty one.
 team-change-fee: 50000
 

@@ -16,6 +16,7 @@ public class InventoryListener implements Listener {
     public InventoryListener(TeamsPlugin teamsPlugin) {
         this.teamsPlugin = teamsPlugin;
     }
+    Team team = null;
 
     @EventHandler
     public void OnInventoryClick(InventoryClickEvent e) {
@@ -23,7 +24,7 @@ public class InventoryListener implements Listener {
         if (e.getView().getTitle().equals(TeamsGui.TITLE)) {
             e.setCancelled(true);
 
-            Team team = null;
+
             switch (e.getSlot()) {
                 case 10 -> team = Team.KNIGHT;
                 case 12 -> {
@@ -48,25 +49,24 @@ public class InventoryListener implements Listener {
 
             final double teamChangeFee = this.teamsPlugin.getConfig().getDouble("team-change-fee");
 
-            if (!this.teamsPlugin.getTeamManager().isFirstTeamChange(player.getUniqueId())) {
-                this.teamsPlugin.getEconomy().ifPresent(economy -> {
-                           if(this.teamsPlugin.getEconomy().get().getBalance(player) >= teamChangeFee) {
-                               economy.withdrawPlayer(player, teamChangeFee);
-                               player.sendMessage(TeamsPlugin.PREFIX + ChatColor.RED + "-" + ChatColor.DARK_GREEN + "$" + ChatColor.GREEN + teamChangeFee);
-                           } else {
-                               player.sendMessage(TeamsPlugin.PREFIX + ColourUtils.colour("&cYou do not have enough money to change your team."));
-                           }
-                        }
-                );
-            }
-
             final Team currentTeam = this.teamsPlugin.getTeamManager().getTeam(player.getUniqueId());
 
-            if (team == currentTeam) {
-                player.sendMessage(TeamsPlugin.PREFIX + ChatColor.RED + "You are already on the " + currentTeam.getPrefix() + ChatColor.RED + " team.");
-            } else {
-                this.teamsPlugin.getTeamManager().setTeam(player.getUniqueId(), team, newTeam ->
-                        player.sendMessage(TeamsPlugin.PREFIX + ChatColor.AQUA + "Set your team to " + ChatColor.GREEN + newTeam.getPrefix())
+            if (!this.teamsPlugin.getTeamManager().isFirstTeamChange(player.getUniqueId())) {
+                this.teamsPlugin.getEconomy().ifPresent(economy -> {
+                            if(this.teamsPlugin.getEconomy().get().getBalance(player) >= teamChangeFee) {
+                                if(currentTeam != team){
+                                    economy.withdrawPlayer(player, teamChangeFee);
+                                    player.sendMessage(TeamsPlugin.PREFIX + ChatColor.RED + "-" + ChatColor.DARK_GREEN + "$" + ChatColor.GREEN + teamChangeFee);
+                                    this.teamsPlugin.getTeamManager().setTeam(player.getUniqueId(), team, newTeam ->
+                                            player.sendMessage(TeamsPlugin.PREFIX + ChatColor.AQUA + "Set your team to " + ChatColor.GREEN + newTeam.getPrefix())
+                                    );
+                                } else {
+                                    player.sendMessage(TeamsPlugin.PREFIX + ColourUtils.colour("&cYou are already on this team."));
+                                }
+                            } else {
+                                player.sendMessage(TeamsPlugin.PREFIX + ColourUtils.colour("&cYou do not have enough money to change your team."));
+                            }
+                        }
                 );
             }
 
