@@ -5,8 +5,8 @@ plugins {
 group 'me.goodwilled'
 version '1.2.0-SNAPSHOT'
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ repositories {
     maven { url 'https://jitpack.io' }
 
     // PlaceholderAPI Repo.
-    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url 'https://repo.extendedclip.com/releases/' }
 }
 
 dependencies {
